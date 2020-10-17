@@ -1,0 +1,129 @@
+/*
+Atividade do dia 25/09/2020
+SOLUÇÃO ATUAL: VETOR
+
+Elabore um programa que permita digitar 30 números inteiros.
+
+Garantir que cada número digitado seja maior do que o anterior, mantendo a ordem crescente da digitação.
+
+Após digitado, cada número deverá ser empilhado em uma estrutura respectiva, de acordo com o fato dele ser par ou ímpar.
+
+Finalizada a digitação dos 30 números, os valores deverão ser desempilhados e mostrados na tela, garantindo uma sequência decrescente.
+
+Obs: Desenvolver essa solução implementando as pilhas em forma de lista encadeada e de vetor.
+
+*/
+ 
+#include <iostream>
+using  namespace std;
+
+#define MAX 30
+
+struct Pilha {
+	int qtde;
+	int nos[MAX];
+};
+
+Pilha* init() {
+	Pilha *p = new Pilha;
+	p->qtde = 0;
+	return p;
+}
+
+int isEmpty(Pilha *p) {
+	return (p->qtde == 0);
+}
+
+int count(Pilha *p) {
+	return p->qtde;
+}
+
+int push(Pilha *p, int v) {
+	int podeEmpilhar = (p->qtde < MAX);
+	if (podeEmpilhar) {
+		p->nos[p->qtde] = v;
+		p->qtde++;
+	}
+	return podeEmpilhar;
+}
+
+int pop(Pilha *p) {
+	int ret;
+	int podeDesempilhar = (p->qtde > 0);
+	if (podeDesempilhar) {
+		ret = p->nos[p->qtde - 1];
+		p->qtde--;
+	}
+	else
+	{
+		ret = -1;
+	}
+	return ret;
+}
+
+void print(Pilha *p) {
+	cout << endl << "----- EXIBINDO ELEMENTOS DA PILHA -----" << endl;
+	for(int i = p->qtde-1; i >= 0; --i) {
+		cout << p->nos[i] << endl;
+	} 
+	cout << "---------------------------------------" << endl << endl;
+}
+
+void freePilha(Pilha *p)
+{
+	free(p);
+}
+
+int main(int argc, char** argv)
+{
+	int number;
+	Pilha *pilhaFloat;
+	pilhaFloat = init();
+	
+	Pilha *pilhaImpar;
+	pilhaImpar = init();
+	
+	Pilha *pilhaPar;
+	pilhaPar = init();
+	
+	// INSERINDO OS 30 INTEIROS.
+	for (int i = 0; i < 30; i++){
+		if ( pilhaFloat->qtde == 0){
+			cout << "Insira o primeiro inteiro da pilha: ";
+			cin >> number; 
+
+		} else {
+			do {
+				cout << "Insira um inteiro maior que: " << pilhaFloat->nos[i-1] << ": ";
+				cin >> number; 
+				
+				if(number <= pilhaFloat->nos[i-1]){
+					cout << "O valor inserido eh menor ou igual ao ultimo valor da pilha! (Ultimo valor: "<< pilhaFloat->nos[i-1] << ")" << endl;
+				};
+			
+			} while(number <= pilhaFloat->nos[i-1]);
+		}
+		
+		if (number % 2 == 0 ){
+			push(pilhaPar, number);
+		} else {
+			push(pilhaImpar, number);
+		}
+		
+		push(pilhaFloat, number);
+					
+	}
+	
+	cout << endl << "-----------  PILHA INTEIRA  -----------";
+	print(pilhaFloat);
+	cout << endl << "------------  PILHA IMPAR  ------------";
+	print(pilhaImpar);
+	cout << endl << "-------------  PILHA PAR  -------------";
+	print(pilhaPar);
+	
+	freePilha(pilhaFloat);
+	freePilha(pilhaPar);
+	freePilha(pilhaImpar);
+	
+	return 0;
+}
