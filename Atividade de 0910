@@ -1,0 +1,55 @@
+/*
+Atividade do dia 09/10/2020
+
+Ordenação e Recursividade.
+Analise os diversos métodos de ordenação demonstrados ludicamente nos vídeos.
+
+Método escolhido: Insertion Sort
+
+*/
+ 
+ 
+#include <iostream>
+using namespace std;
+
+void insertionSort(int tam, int *array)  
+{  
+    int aux, ant;  
+    
+    for (int i = 1; i < tam; i++) 
+    {  
+        aux = array[i];  
+        ant = i - 1;  
+  
+        while (ant >= 0 && array[ant] > aux) 
+        {  
+            array[ant + 1] = array[ant];  
+            ant = ant - 1;  
+        }  
+        array[ant + 1] = aux;  
+    }  
+}  
+
+void print(int t, int *a) {
+	int i;
+	for(i=0; i<t; ++i) {
+		cout << "Elemento: " << i << " = " << a[i] << endl;
+	}
+	cout << "------------------------" << endl;
+}
+
+
+int main(int argc, char** argv)
+{
+	
+	int v[8] = {26,49,38,13,58,87,34,93};
+	int tam = sizeof(v)/sizeof(int);
+		
+	print(tam , v);
+	
+	insertionSort(tam, v);
+	
+	print(tam, v);
+	
+	return 0;
+}
